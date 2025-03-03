@@ -8,6 +8,7 @@ const Admin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    console.log("Halaman admin");
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) {
         navigate("/admin-login"); // Kalau belum login, arahkan ke login
