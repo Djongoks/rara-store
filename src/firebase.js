@@ -1,21 +1,17 @@
-// src/firebase.js
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "API_KEY_KAMU",
-  authDomain: "DOMAIN_KAMU",
-  projectId: "PROJECT_ID_KAMU",
-  storageBucket: "STORAGE_KAMU",
-  messagingSenderId: "SENDER_ID",
-  appId: "APP_ID",
-  measurementId: "MEASUREMENT_ID"
+  apiKey: "AIzaSyCkfNpj5MzecbYmJx2_kftkJsuHuOlV1DI",
+  authDomain: "web-musik-9056a.firebaseapp.com",
+  projectId: "web-musik-9056a",
+  storageBucket: "web-musik-9056a.appspot.com",
+  messagingSenderId: "844922737017",
+  appId: "1:844922737017:web:777cd3d33fa87acd665fa8",
+  measurementId: "G-QBYPNWS0NW",
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-export { db, auth, provider };
+export const auth = getAuth(app);
+export const db = getFirestore(app);
