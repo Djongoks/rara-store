@@ -25,8 +25,8 @@ const Admin = () => {
     navigate("/admin-login");
   };
 
-  if (!user) return <p>Loading...</p>;
-
+  if (!user) return null;
+  
   return (
     <div>
       <h2>Admin Dashboard</h2>
