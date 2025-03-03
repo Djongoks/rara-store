@@ -1,0 +1,26 @@
+/* src/components/ProductCard.css */
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  transition: transform 0.3s;
+  cursor: pointer;
+  background: white;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+}
+
+.product-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Mobile: Kurangi efek hover agar tidak terlalu besar */
+@media (max-width: 600px) {
+  .product-card:hover {
+    transform: scale(1.02);
+  }
+}
