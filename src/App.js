@@ -1,15 +1,18 @@
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
-import AdminLogin from "./pages/AdminLogin";
 import Admin from "./pages/Admin";
+import AdminLogin from "./pages/AdminLogin";
 import Footer from "./components/Footer";
 
 function App() {
-  const [user] = useAuthState(auth); // Cek user login
+  const [user, loading] = useAuthState(auth);
+
+  if (loading) return <p>Loading...</p>;
 
   return (
     <Router>
