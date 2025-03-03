@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
@@ -8,30 +8,29 @@ const Admin = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Cek apakah user sudah login
-    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) {
-        navigate("/admin-login"); // Redirect ke login jika belum login
+        navigate("/admin-login"); // Kalau belum login, arahkan ke login
       } else {
         setUser(currentUser);
       }
     });
+
     return () => unsubscribe();
   }, [navigate]);
 
   const handleLogout = async () => {
     await signOut(auth);
-    navigate("/admin-login"); // Kembali ke login setelah logout
+    navigate("/admin-login");
   };
 
-  if (!user) return <p>Memuat...</p>;
+  if (!user) return <p>Loading...</p>;
 
   return (
     <div>
-      <h1>Admin Panel</h1>
-      <p>Halo, {user.email}!</p>
+      <h2>Admin Dashboard</h2>
+      <p>Selamat datang, {user.email}</p>
       <button onClick={handleLogout}>Logout</button>
-      {/* Tambahkan fitur upload produk di sini */}
     </div>
   );
 };
