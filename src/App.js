@@ -10,31 +10,23 @@ import AdminLogin from "./pages/AdminLogin";
 import Footer from "./components/Footer";
 
 function App() {
-  const [user, loading] = useAuthState(auth);
+  const [user] = useAuthState(auth);
 
-  return (
-    <Router>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route
-          path="/admin"
-          element={
-            loading ? (
-              <p>Loading...</p>
-            ) : user ? (
-              <Admin />
-            ) : (
-              <Navigate to="/admin-login" replace />
-            )
-          }
-        />
-      </Routes>
-      <Footer />
-    </Router>
-  );
+return (
+  <Router>
+    <Navbar />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/admin-login" element={<AdminLogin />} />
+      <Route
+        path="/admin"
+        element={user ? <Admin /> : <Navigate to="/admin-login" replace />}
+      />
+    </Routes>
+    <Footer />
+  </Router>
+);
 }
 
 export default App;
