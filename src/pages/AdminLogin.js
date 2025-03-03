@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth } from "../firebase"; // Import Firebase auth
+import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -13,9 +13,9 @@ const AdminLogin = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/admin"); // Redirect ke halaman admin setelah login
+      navigate("/admin");
     } catch (err) {
-      setError("Login gagal, periksa email & password!");
+      setError("Login gagal! Periksa email dan password.");
     }
   };
 
