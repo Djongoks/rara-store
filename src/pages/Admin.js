@@ -1,46 +1,38 @@
-// src/pages/Admin.js
-import React, { useState } from 'react';
-import { db, auth, provider } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
-import { signInWithPopup, signOut } from 'firebase/auth';
+import React, { useEffect, useState } from "react";
+import { auth } from "../firebase";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Admin = () => {
   const [user, setUser] = useState(null);
-  const [name, setName] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState('');
+  const navigate = useNavigate();
 
-  const loginWithGoogle = async () => {
-    const result = await signInWithPopup(auth, provider);
-    setUser(result.user);
+  useEffect(() => {
+    // Cek apakah user sudah login
+    const unsubscribe = auth.onAuthStateChanged((currentUser) => {
+      if (!currentUser) {
+        navigate("/admin-login"); // Redirect ke login jika belum login
+      } else {
+        setUser(currentUser);
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/admin-login"); // Kembali ke login setelah logout
   };
 
-  const logout = () => {
-    signOut(auth);
-    setUser(null);
-  };
+  if (!user) return <p>Memuat...</p>;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await addDoc(collection(db, "products"), { name, price, image });
-    setName('');
-    setPrice('');
-    setImage('');
-    alert("Produk berhasil ditambahkan!");
-  };
-
-  return user ? (
+  return (
     <div>
-      <button onClick={logout}>Logout</button>
-      <form onSubmit={handleSubmit}>
-        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Nama Produk" />
-        <input type="number" value={price} onChange={e => setPrice(e.target.value)} placeholder="Harga" />
-        <input type="text" value={image} onChange={e => setImage(e.target.value)} placeholder="URL Gambar" />
-        <button type="submit">Tambah Produk</button>
-      </form>
+      <h1>Admin Panel</h1>
+      <p>Halo, {user.email}!</p>
+      <button onClick={handleLogout}>Logout</button>
+      {/* Tambahkan fitur upload produk di sini */}
     </div>
-  ) : (
-    <button onClick={loginWithGoogle}>Login dengan Google</button>
   );
 };
 
