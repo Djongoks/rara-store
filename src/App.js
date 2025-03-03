@@ -12,8 +12,6 @@ import Footer from "./components/Footer";
 function App() {
   const [user, loading] = useAuthState(auth);
 
-  if (loading) return <p>Loading...</p>;
-
   return (
     <Router>
       <Navbar />
@@ -21,7 +19,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin" element={user ? <Admin /> : <Navigate to="/admin-login" />} />
+        <Route
+          path="/admin"
+          element={
+            loading ? (
+              <p>Loading...</p>
+            ) : user ? (
+              <Admin />
+            ) : (
+              <Navigate to="/admin-login" replace />
+            )
+          }
+        />
       </Routes>
       <Footer />
     </Router>
